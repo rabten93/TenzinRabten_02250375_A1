@@ -1,76 +1,93 @@
+import random  # For generating random numbers and choices
+
+# This is the "Guess the Number" game
 def guess_number_game():
-    """Play a number guessing game between 1 and 100."""
-    number = random.randint(1, 100)
-    attempts = 0
     print("\nI'm thinking of a number between 1 and 100...")
+    number_to_guess = random.randint(1, 100)  # Random number to guess
+    attempts = 0  # Track number of tries
 
     while True:
-        guess = input("Guess the number: ")
-        try:
-            guess = int(guess)
-            if guess < 1 or guess > 100:
-                print("Please guess a number between 1 and 100.")
-                continue
-            attempts += 1
-            if guess < number:
-                print("Too low! Try again.")
-            elif guess > number:
-                print("Too high! Try again.")
-            else:
-                print(f"Correct! You guessed it in {attempts} attempts.")
-                break
-        except ValueError:
-            print("Invalid input. Please enter an integer.")
+        guess_input = input("Take a guess: ")
 
-def rock_paper_scissors_game():
-    """Play Rock Paper Scissors against the computer."""
-    choices = ["rock", "paper", "scissors"]
-    wins = 0
-    losses = 0
-    ties = 0
+        if not guess_input.isdigit():
+            print("That's not a valid number. Please enter a number between 1 and 100.")
+            continue
 
-    while True:
-        user_choice = input("\nChoose rock, paper, or scissors (or 'exit' to quit): ").lower()
-        if user_choice == 'exit':
-            print(f"Final Score → Wins: {wins}, Losses: {losses}, Ties: {ties}")
+        guess = int(guess_input)
+
+        if guess < 1 or guess > 100:
+            print("Please enter a number between 1 and 100.")
+            continue
+
+        attempts += 1
+
+        if guess < number_to_guess:
+            print("Too low. Try a higher number.")
+        elif guess > number_to_guess:
+            print("Too high. Try a lower number.")
+        else:
+            print(f"🎉 Congratulations! You guessed the number in {attempts} attempts.\n")
             break
+
+# This is the "Rock, Paper, Scissors" game
+def rock_paper_scissors_game():
+    choices = ['rock', 'paper', 'scissors']
+    user_wins = 0
+    computer_wins = 0
+    rounds = 0
+
+    print("\nWelcome to Rock, Paper, Scissors!")
+
+    while True:
+        user_choice = input("Enter rock, paper, or scissors (or 'quit' to go back): ").lower()
+
+        if user_choice == 'quit':
+            print(f"\nFinal Score: You {user_wins} - Computer {computer_wins} (Rounds played: {rounds})\n")
+            break
+
         if user_choice not in choices:
-            print("Invalid choice. Please choose rock, paper, or scissors.")
+            print("Invalid choice. Please enter rock, paper, or scissors.")
             continue
 
         computer_choice = random.choice(choices)
         print(f"Computer chose: {computer_choice}")
 
         if user_choice == computer_choice:
-            print("It's a tie!")
-            ties += 1
-        elif (user_choice == "rock" and computer_choice == "scissors") or \
-             (user_choice == "paper" and computer_choice == "rock") or \
-             (user_choice == "scissors" and computer_choice == "paper"):
-            print("You win!")
-            wins += 1
+            print("It's a tie.")
+        elif (user_choice == 'rock' and computer_choice == 'scissors') or \
+             (user_choice == 'paper' and computer_choice == 'rock') or \
+             (user_choice == 'scissors' and computer_choice == 'paper'):
+            print("You win this round!")
+            user_wins += 1
         else:
-            print("You lose!")
-            losses += 1
+            print("You lose this round.")
+            computer_wins += 1
 
+        rounds += 1
+        print(f"Current Score: You {user_wins} | Computer {computer_wins}\n")
+
+# This is the main menu
 def main():
-    while True:
-        print("\nSelect a game (1-3):")
-        print("1. Guess Number Game")
-        print("2. Rock Paper Scissors Game")
-        print("3. Exit program")
+    print("🎮 Welcome to the Game Zone!")
 
-        choice = input("Enter your choice: ").strip()
+    while True:
+        print("\nPlease choose a game:")
+        print("1. Guess the Number")
+        print("2. Rock, Paper, Scissors")
+        print("3. Exit")
+
+        choice = input("Enter your choice (1-3): ")
 
         if choice == '1':
             guess_number_game()
         elif choice == '2':
             rock_paper_scissors_game()
         elif choice == '3':
-            print("Exiting program. Goodbye!")
+            print("Thanks for playing. Goodbye!")
             break
         else:
-            print("Invalid choice. Please select 1, 2, or 3.")
+            print("Invalid option. Please enter 1, 2, or 3.")
 
+# Start the program
 if __name__ == "__main__":
     main()
